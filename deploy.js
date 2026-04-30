@@ -16,180 +16,7 @@ if (typeof process !== 'undefined' && process.env) {
   }
 }
 
-const rfqCssContent = `:root {
-    --brand-orange: #F97316;
-    --brand-navy: #0F172A;
-    --brand-white: #FFFFFF;
-    --brand-grey: #4B5563;
-    --brand-blue: #3B82F6;
-    --bg-main: #E5E7EB;
-    --bg-alt: #D1D5DB;
-    --border-color: #D1D5DB;
-    --footer-height: 80px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-    font-family: 'Inter', sans-serif; 
-    background-color: var(--bg-main); 
-    color: var(--brand-navy); 
-    overflow: hidden;
-    line-height: 1.5;
-}
-.presentation-container {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    height: calc(100vh - var(--footer-height));
-}
-.presentation-container::-webkit-scrollbar { display: none; }
-.slide { 
-    min-height: 100vh; 
-    min-width: 100vw; 
-    flex-shrink: 0; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    scroll-snap-align: start;
-    padding: 1.5rem;
-    border-right: 1px solid var(--border-color);
-}
-.slide-content {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-.slide-alt { background-color: var(--bg-alt); }
-h1 { font-size: clamp(2rem, 8vw, 3.5rem); font-weight: 700; margin-bottom: 1.5rem; line-height: 1.1; color: var(--brand-navy); }
-h2 { font-size: clamp(1.75rem, 6vw, 2.5rem); font-weight: 700; margin-bottom: 2rem; color: var(--brand-navy); }
-h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
-h4 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; }
-p { color: var(--brand-grey); font-size: clamp(1rem, 2vw, 1.125rem); }
-.lead { font-size: clamp(1.125rem, 3vw, 1.25rem); color: var(--brand-grey); margin-bottom: 2.5rem; }
-.accent { color: var(--brand-orange); }
-.blue-accent { color: var(--brand-blue); }
-.grid-2 { 
-    display: grid; 
-    grid-template-columns: 1fr; 
-    gap: 1.5rem; 
-}
-@media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; gap: 2rem; } }
-.card { 
-    padding: 1.5rem; 
-    background-color: var(--brand-white); 
-    border-radius: 0.75rem; 
-    border: 1px solid var(--border-color); 
-}
-.card-highlight { border-left: 4px solid var(--brand-orange); }
-.roi-card {
-    padding: 2rem;
-    background-color: var(--brand-white);
-    border: 1px solid var(--border-color);
-    border-radius: 1rem;
-    text-align: center;
-}
-.roi-value { font-size: 3.5rem; font-weight: 700; color: var(--brand-orange); }
-.quadrant-container {
-    position: relative;
-    height: 300px;
-    width: 100%;
-    background-color: var(--bg-main);
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    margin-top: 2rem;
-}
-.quadrant-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    height: 100%;
-    border: 1px solid var(--border-color);
-}
-.quad-cell { border: 0.5px solid var(--border-color); position: relative; }
-.quad-winner { 
-    background: rgba(59, 130, 246, 0.15); 
-    border: 1px solid var(--brand-blue); 
-    margin: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: var(--brand-navy);
-}
-.label-v { position: absolute; left: -2.5rem; top: 50%; transform: rotate(-90deg) translateY(-50%); font-size: 0.75rem; color: var(--brand-grey); white-space: nowrap; }
-.label-h { position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--brand-grey); white-space: nowrap; }
-.roadmap-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
-.q-badge { 
-    background: var(--brand-orange); 
-    color: var(--brand-white); 
-    width: 3rem; 
-    height: 3rem; 
-    border-radius: 50%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-weight: bold; 
-    flex-shrink: 0;
-}
-.presentation-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: var(--footer-height);
-    background-color: var(--brand-white);
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    padding: 0 2rem;
-    z-index: 100;
-}
-.footer-left {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    width: 100%;
-}
-.logo-placeholder {
-    width: 140px;
-    height: 40px;
-    background-color: var(--bg-main);
-    border: 1px dashed var(--brand-grey);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: var(--brand-grey);
-    border-radius: 4px;
-}
-.controls {
-    display: flex;
-    gap: 0.5rem;
-}
-.nav-btn {
-    background: none;
-    border: none;
-    color: var(--brand-navy);
-    padding: 0.75rem;
-    cursor: pointer;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-}
-.nav-btn:hover { background: var(--bg-main); color: var(--brand-orange); }
-.nav-btn svg { width: 1.5rem; height: 1.5rem; fill: currentColor; }
-@media (max-width: 768px) {
-    .slide { padding: 1rem; }
-    .presentation-footer { padding: 0 1rem; }
-    .footer-left { gap: 1rem; }
-    .logo-placeholder { width: 100px; font-size: 0.65rem; }
-}
-`;
+const rfqCssContent = `/* Styles moved inline into index.html */`;
 
 const rfqHtmlContent = `<!DOCTYPE html>
 <html lang="en">
@@ -198,7 +25,59 @@ const rfqHtmlContent = `<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RFQ Strategy: Concise Digital 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --brand-orange: #F97316;
+            --brand-navy: #0F172A;
+            --brand-white: #F8FAFC;
+            --brand-grey: #94A3B8;
+            --brand-blue: #3B82F6;
+            --footer-height: 80px;
+            --transition-speed: 0.3s;
+        }
+        :root, [data-theme="light"] {
+            --bg-main: #E5E7EB; --bg-alt: #D1D5DB; --text-main: #0F172A; --footer-bg: #FFFFFF; --card-bg: #FFFFFF; --border-color: #D1D5DB;
+            --logo-filter: invert(8%) sepia(34%) saturate(4649%) hue-rotate(213deg) brightness(96%) contrast(97%);
+        }
+        [data-theme="dark"] {
+            --bg-main: #0F172A; --bg-alt: #1E293B; --text-main: #F8FAFC; --footer-bg: #1E293B; --card-bg: #1E293B; --border-color: #334155;
+            --logo-filter: none;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); overflow: hidden; line-height: 1.5; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        .presentation-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; height: calc(100vh - var(--footer-height)); }
+        .presentation-container::-webkit-scrollbar { display: none; }
+        .slide { min-height: calc(100vh - var(--footer-height)); min-width: 100vw; flex-shrink: 0; display: flex; align-items: center; justify-content: center; scroll-snap-align: start; padding: 1.5rem; border-right: 1px solid var(--border-color); }
+        .slide-content { width: 100%; max-width: 1100px; margin: 0 auto; }
+        .slide-alt { background-color: var(--bg-alt); transition: background-color var(--transition-speed) ease; }
+        h1, h2 { font-weight: 700; line-height: 1.1; color: var(--text-main); margin-bottom: 1.5rem; }
+        h1 { font-size: clamp(2rem, 8vw, 3.5rem); } h2 { font-size: clamp(1.75rem, 6vw, 2.5rem); }
+        h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; } h4 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .lead { font-size: clamp(1.125rem, 3vw, 1.25rem); color: var(--brand-grey); margin-bottom: 2.5rem; }
+        .accent { color: var(--brand-orange); }
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+        .card { padding: 1.5rem; background-color: var(--card-bg); border-radius: 0.75rem; border: 1px solid var(--border-color); transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease; }
+        .card-highlight { border-left: 4px solid var(--brand-orange); }
+        .roi-card { padding: 2rem; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 1rem; text-align: center; }
+        .roi-value { font-size: 3.5rem; font-weight: 700; color: var(--brand-orange); }
+        .quadrant-container { position: relative; height: 300px; width: 100%; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 0.5rem; margin-top: 2rem; }
+        .quadrant-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 100%; }
+        .quad-cell { border: 0.5px solid var(--border-color); }
+        .quad-winner { background: rgba(59, 130, 246, 0.15); border: 1px solid var(--brand-blue); margin: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .label-v { position: absolute; left: -2.5rem; top: 50%; transform: rotate(-90deg) translateY(-50%); font-size: 0.75rem; color: var(--brand-grey); }
+        .label-h { position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--brand-grey); }
+        .roadmap-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
+        .q-badge { background: var(--brand-orange); color: white; width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+        .presentation-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background-color: var(--footer-bg); border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; z-index: 100; transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease; }
+        .footer-left { display: flex; align-items: center; gap: 2rem; }
+        .footer-logo { height: 35px; width: auto; filter: var(--logo-filter); transition: filter var(--transition-speed) ease; }
+        .controls { display: flex; gap: 0.5rem; }
+        .nav-btn { background: none; border: none; color: var(--text-main); padding: 0.75rem; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .nav-btn:hover { background: rgba(0,0,0,0.05); color: var(--brand-orange); }
+        .nav-btn svg { width: 1.5rem; height: 1.5rem; fill: currentColor; }
+        @media (max-width: 768px) { .presentation-footer { padding: 0 1rem; } .footer-left { gap: 1rem; } .footer-logo { height: 25px; } }
+    </style>
 </head>
 <body>
     <main class="presentation-container" id="slider">
@@ -295,12 +174,17 @@ const rfqHtmlContent = `<!DOCTYPE html>
     </main>
     <footer class="presentation-footer">
         <div class="footer-left">
-            <div class="logo-placeholder">LOGO PLACEHOLDER</div>
+            <img src="https://www.concise.digital/wp-content/uploads/2025/05/Concise-Logo-White.png" alt="Concise Digital" class="footer-logo">
             <div class="controls">
                 <button id="prevBtn" class="nav-btn" title="Previous"><svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg></button>
                 <button id="pauseBtn" class="nav-btn" title="Play/Pause"><span id="pauseIcon" style="font-size: 1.25rem;">⏸</span></button>
                 <button id="nextBtn" class="nav-btn" title="Next"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></button>
             </div>
+        </div>
+        <div class="footer-right">
+            <button id="themeToggle" class="nav-btn" title="Toggle Light/Dark Mode">
+                <span id="themeIcon" style="font-size: 1.25rem;">🌙</span>
+            </button>
         </div>
     </footer>
     <script>
@@ -336,6 +220,21 @@ const rfqHtmlContent = `<!DOCTYPE html>
             if (e.key === ' ') { e.preventDefault(); pauseBtn.click(); }
         });
         startAutoScroll();
+
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const htmlElement = document.documentElement;
+        function setTheme(theme) {
+            htmlElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        setTheme(savedTheme);
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            setTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
     </script>
 </body>
 </html>`;
