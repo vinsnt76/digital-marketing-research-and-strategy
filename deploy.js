@@ -35,13 +35,19 @@ const rfqHtmlContent = `<!DOCTYPE html>
             --footer-height: 80px;
             --transition-speed: 0.3s;
         }
-        :root, [data-theme="light"] {
-            --bg-main: #E5E7EB; --bg-alt: #D1D5DB; --text-main: #0F172A; --footer-bg: #FFFFFF; --card-bg: #FFFFFF; --border-color: #D1D5DB;
-            --logo-filter: invert(8%) sepia(34%) saturate(4649%) hue-rotate(213deg) brightness(96%) contrast(97%);
-        }
-        [data-theme="dark"] {
+        /* Dark Theme (Default) */
+        :root, [data-theme="dark"] {
             --bg-main: #0F172A; --bg-alt: #1E293B; --text-main: #F8FAFC; --footer-bg: #1E293B; --card-bg: #1E293B; --border-color: #334155;
+            --text-secondary: #94A3B8;
+            --accent-main: #F97316;
             --logo-filter: none;
+        }
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-main: #E5E7EB; --bg-alt: #D1D5DB; --text-main: #0F172A; --footer-bg: #FFFFFF; --card-bg: #FFFFFF; --border-color: #D1D5DB;
+            --text-secondary: #4B5563;
+            --accent-main: #C2410C;
+            --logo-filter: invert(8%) sepia(34%) saturate(4649%) hue-rotate(213deg) brightness(96%) contrast(97%);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-main); color: var(--text-main); overflow: hidden; line-height: 1.5; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
@@ -53,30 +59,31 @@ const rfqHtmlContent = `<!DOCTYPE html>
         h1, h2 { font-weight: 700; line-height: 1.1; color: var(--text-main); margin-bottom: 1.5rem; }
         h1 { font-size: clamp(2rem, 8vw, 3.5rem); } h2 { font-size: clamp(1.75rem, 6vw, 2.5rem); }
         h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; } h4 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .lead { font-size: clamp(1.125rem, 3vw, 1.25rem); color: var(--brand-grey); margin-bottom: 2.5rem; }
-        .accent { color: var(--brand-orange); }
+        p { color: var(--text-secondary); font-size: clamp(1rem, 2vw, 1.125rem); transition: color var(--transition-speed) ease; }
+        .lead { font-size: clamp(1.125rem, 3vw, 1.25rem); color: var(--text-secondary); margin-bottom: 2.5rem; transition: color var(--transition-speed) ease; }
+        .accent { color: var(--accent-main); transition: color var(--transition-speed) ease; }
         .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
         @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; gap: 2rem; } }
         .card { padding: 1.5rem; background-color: var(--card-bg); border-radius: 0.75rem; border: 1px solid var(--border-color); transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease; }
         .card-highlight { border-left: 4px solid var(--brand-orange); }
         .roi-card { padding: 2rem; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 1rem; text-align: center; }
-        .roi-value { font-size: 3.5rem; font-weight: 700; color: var(--brand-orange); }
+        .roi-value { font-size: 3.5rem; font-weight: 700; color: var(--accent-main); transition: color var(--transition-speed) ease; }
         .quadrant-container { position: relative; height: 300px; width: 100%; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 0.5rem; margin-top: 2rem; }
         .quadrant-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; height: 100%; }
         .quad-cell { border: 0.5px solid var(--border-color); }
         .quad-winner { background: rgba(59, 130, 246, 0.15); border: 1px solid var(--brand-blue); margin: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .label-v { position: absolute; left: -2.5rem; top: 50%; transform: rotate(-90deg) translateY(-50%); font-size: 0.75rem; color: var(--brand-grey); }
-        .label-h { position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--brand-grey); }
+        .label-v { position: absolute; left: -2.5rem; top: 50%; transform: rotate(-90deg) translateY(-50%); font-size: 0.75rem; color: var(--text-secondary); transition: color var(--transition-speed) ease; }
+        .label-h { position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--text-secondary); transition: color var(--transition-speed) ease; }
         .roadmap-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
-        .q-badge { background: var(--brand-orange); color: white; width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+        .q-badge { background: var(--accent-main); color: white; width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; transition: background-color var(--transition-speed) ease; }
         .presentation-footer { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background-color: var(--footer-bg); border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; z-index: 100; transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease; }
         .footer-left { display: flex; align-items: center; gap: 2rem; }
-        .footer-logo { height: 35px; width: auto; filter: var(--logo-filter); transition: filter var(--transition-speed) ease; }
+        .footer-logo { height: 30px; width: auto; filter: var(--logo-filter); transition: filter var(--transition-speed) ease; }
         .controls { display: flex; gap: 0.5rem; }
         .nav-btn { background: none; border: none; color: var(--text-main); padding: 0.75rem; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
         .nav-btn:hover { background: rgba(0,0,0,0.05); color: var(--brand-orange); }
         .nav-btn svg { width: 1.5rem; height: 1.5rem; fill: currentColor; }
-        @media (max-width: 768px) { .presentation-footer { padding: 0 1rem; } .footer-left { gap: 1rem; } .footer-logo { height: 25px; } }
+        @media (max-width: 768px) { .presentation-footer { padding: 0 1rem; } .footer-left { gap: 1rem; } .footer-logo { height: 20px; } }
     </style>
 </head>
 <body>
@@ -125,11 +132,11 @@ const rfqHtmlContent = `<!DOCTYPE html>
                 <h2 class="accent">Market Opportunity & TAM</h2>
                 <div class="grid-2" style="align-items: center;">
                     <div style="text-align: center;">
-                        <div style="font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 800; color: var(--brand-navy);">~$3.5B</div>
-                        <div style="letter-spacing: 0.2em; color: var(--brand-grey); text-transform: uppercase; font-size: 0.875rem;">AU SME Digital TAM</div>
+                        <div style="font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 800; color: var(--text-main); transition: color var(--transition-speed) ease;">~$3.5B</div>
+                        <div style="letter-spacing: 0.2em; color: var(--text-secondary); text-transform: uppercase; font-size: 0.875rem; transition: color var(--transition-speed) ease;">AU SME Digital TAM</div>
                     </div>
                     <div class="card">
-                        <p style="margin-bottom: 1rem;"><strong style="color: var(--brand-navy);">Key Growth Sectors:</strong> E-commerce UX, Cybersecurity, AI-assisted content marketing.</p>
+                        <p style="margin-bottom: 1rem;"><strong style="color: var(--text-main); transition: color var(--transition-speed) ease;">Key Growth Sectors:</strong> E-commerce UX, Cybersecurity, AI-assisted content marketing.</p>
                         <p style="border-left: 4px solid var(--brand-orange); padding-left: 1rem;"><strong class="accent">Strategic Gap:</strong> Bridging technical knowledge gaps for businesses overwhelmed by the fast-paced digital shifts of 2026.</p>
                     </div>
                 </div>
@@ -168,6 +175,41 @@ const rfqHtmlContent = `<!DOCTYPE html>
                         <li style="margin-bottom: 0.75rem; display: flex; gap: 0.75rem;"><span class="accent">✔</span> Allocate initial budget for strategic market testing.</li>
                         <li style="display: flex; gap: 0.75rem;"><span class="accent">✔</span> Schedule a formal project kick-off call.</li>
                     </ul>
+                </div>
+                <div class="card" style="margin-top: 2rem;">
+                    <h3 class="accent" style="margin-bottom: 1.5rem;">Next Step: Start the Conversation</h3>
+                    <form style="display: flex; flex-direction: column; gap: 1rem;">
+                        <input type="text" placeholder="Full Name" required
+                               style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-main); color: var(--text-main); font-size: 1rem; transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;">
+                        <input type="email" placeholder="Email Address" required
+                               style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-main); color: var(--text-main); font-size: 1rem; transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;">
+                        <input type="text" placeholder="Company / Brand"
+                               style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-main); color: var(--text-main); font-size: 1rem; transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;">
+                        <textarea placeholder="Message or Project Summary" rows="4"
+                                  style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-main); color: var(--text-main); font-size: 1rem; resize: vertical; transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease;"></textarea>
+                        <button type="submit"
+                                style="padding: 0.75rem 1.5rem; background-color: var(--brand-orange); color: var(--brand-white); border: none; border-radius: 0.375rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease, opacity 0.2s ease;">
+                            Send & Continue
+                        </button>
+                    </form>
+                    <style>
+                        /* Input focus styles */
+                        form input:focus,
+                        form textarea:focus {
+                            outline: none;
+                            border-color: var(--brand-blue);
+                            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+                        }
+                        /* Placeholder styles */
+                        form input::placeholder,
+                        form textarea::placeholder {
+                            color: var(--brand-grey);
+                            opacity: 0.7;
+                        }
+                        /* Button hover/active */
+                        form button:hover { background-color: #E06000; }
+                        form button:active { background-color: #C2410C; opacity: 0.9; }
+                    </style>
                 </div>
             </div>
         </section>
@@ -229,7 +271,7 @@ const rfqHtmlContent = `<!DOCTYPE html>
             localStorage.setItem('theme', theme);
             themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
         }
-        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedTheme = localStorage.getItem('theme') || 'dark';
         setTheme(savedTheme);
         themeToggle.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-theme');
