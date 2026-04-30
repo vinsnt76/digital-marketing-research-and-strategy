@@ -26,12 +26,12 @@ const rfqHtmlContent = `
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .slide { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 4rem; border-bottom: 1px solid #1e293b; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; overflow: hidden; }
+        .slide { min-height: 100vh; min-width: 100vw; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; padding: 4rem; border-right: 1px solid #1e293b; }
         .accent { color: #10b981; }
     </style>
 </head>
-<body>
+<body class="flex transition-transform duration-700 ease-in-out">
     <!-- Slide 1 -->
     <section class="slide">
         <h1 class="text-5xl font-bold mb-4">Executive Summary & <span class="accent">Current Positioning</span></h1>
@@ -151,24 +151,40 @@ const rfqHtmlContent = `
         </div>
     </section>
 
-    <!-- Play/Pause Control -->
-    <button id="pauseBtn" class="fixed bottom-8 right-8 z-50 p-4 bg-slate-800/80 backdrop-blur-sm border border-slate-700 rounded-full hover:bg-slate-700 transition-all shadow-xl">
-        <span id="pauseIcon" class="text-xl">⏸️</span>
-    </button>
+    <!-- Navigation Controls -->
+    <div class="fixed bottom-8 right-8 z-50 flex items-center gap-2 p-2 bg-slate-800/80 backdrop-blur-sm border border-slate-700 rounded-full shadow-xl">
+        <button id="prevBtn" class="p-3 hover:bg-slate-700 rounded-full transition-colors" title="Previous">
+            <span class="text-xl">⬅️</span>
+        </button>
+        <button id="pauseBtn" class="p-3 hover:bg-slate-700 rounded-full transition-colors" title="Play/Pause">
+            <span id="pauseIcon" class="text-xl">⏸️</span>
+        </button>
+        <button id="nextBtn" class="p-3 hover:bg-slate-700 rounded-full transition-colors" title="Next">
+            <span class="text-xl">➡️</span>
+        </button>
+    </div>
 
     <script>
         const slides = document.querySelectorAll('.slide');
         const pauseBtn = document.getElementById('pauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
         const pauseIcon = document.getElementById('pauseIcon');
         let currentSlide = 0;
         let isPaused = false;
         let scrollInterval;
 
+        function goToSlide(index) {
+            currentSlide = (index + slides.length) % slides.length;
+            slides[currentSlide].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+            if (!isPaused) startAutoScroll();
+        }
+
         function startAutoScroll() {
+            clearInterval(scrollInterval);
             scrollInterval = setInterval(() => {
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
-            }, 5000);
+                goToSlide(currentSlide + 1);
+            }, 10000);
         }
 
         pauseBtn.addEventListener('click', () => {
@@ -177,6 +193,9 @@ const rfqHtmlContent = `
             else startAutoScroll();
             pauseIcon.textContent = isPaused ? '▶️' : '⏸️';
         });
+
+        prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
 
         startAutoScroll();
     </script>
@@ -192,7 +211,7 @@ async function deployToVercel(token) {
   const vercelPayload = {
     name: "concise-rfq-presentation",
     files: [{ file: "index.html", data: rfqHtmlContent }],
-    projectSettings: { framework: null }
+    projectSettings: { framework: null, installCommand: null, buildCommand: null }
   };
 
   try {
