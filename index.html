@@ -5,174 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RFQ Strategy: Concise Digital 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --brand-orange: #F97316;
-            --brand-navy: #0F172A;
-            --brand-white: #F8FAFC;
-            --brand-grey: #94A3B8;
-            --brand-blue: #3B82F6;
-            --bg-darker: #0b1120;
-            --border-color: #1e293b;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--brand-navy); 
-            color: var(--brand-white); 
-            overflow: hidden;
-            line-height: 1.5;
-        }
-
-        /* Layout Container */
-        .presentation-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none;  /* IE/Edge */
-        }
-        .presentation-container::-webkit-scrollbar { display: none; }
-
-        .slide { 
-            min-height: 100vh; 
-            min-width: 100vw; 
-            flex-shrink: 0; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            scroll-snap-align: start;
-            padding: 1.5rem;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .slide-content {
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .slide-alt { background-color: var(--bg-darker); }
-
-        /* Typography */
-        h1 { font-size: clamp(2rem, 8vw, 3.5rem); font-bold; margin-bottom: 1.5rem; line-height: 1.1; }
-        h2 { font-size: clamp(1.75rem, 6vw, 2.5rem); font-bold; margin-bottom: 2rem; }
-        h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
-        h4 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; }
-        p { color: var(--brand-grey); font-size: clamp(1rem, 2vw, 1.125rem); }
-        .lead { font-size: clamp(1.125rem, 3vw, 1.25rem); color: var(--brand-grey); margin-bottom: 2.5rem; }
-        .accent { color: var(--brand-orange); }
-        .blue-accent { color: var(--brand-blue); }
-
-        /* Grid Systems */
-        .grid-2 { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 1.5rem; 
-        }
-        @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; gap: 2rem; } }
-
-        /* Components */
-        .card { 
-            padding: 1.5rem; 
-            background-color: #1e293b; 
-            border-radius: 0.75rem; 
-            border: 1px solid var(--border-color); 
-        }
-        .card-highlight { background-color: rgba(249, 115, 22, 0.05); border-color: rgba(249, 115, 22, 0.2); }
-        
-        .roi-card {
-            padding: 2rem;
-            background-color: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 1rem;
-            text-align: center;
-        }
-        .roi-value { font-size: 3.5rem; font-weight: 700; color: var(--brand-orange); }
-
-        /* Quadrant Chart */
-        .quadrant-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-            background-color: rgba(15, 23, 42, 0.5);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            margin-top: 2rem;
-        }
-        .quadrant-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            height: 100%;
-            border: 1px solid var(--border-color);
-        }
-        .quad-cell { border: 0.5px solid var(--border-color); position: relative; }
-        .quad-winner { 
-            background: rgba(59, 130, 246, 0.15); 
-            border: 1px solid var(--brand-blue); 
-            margin: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--brand-white);
-        }
-        .label-v { position: absolute; left: -2.5rem; top: 50%; transform: rotate(-90deg) translateY(-50%); font-size: 0.75rem; color: var(--brand-grey); white-space: nowrap; }
-        .label-h { position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--brand-grey); white-space: nowrap; }
-
-        /* Roadmap */
-        .roadmap-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
-        .q-badge { 
-            background: var(--brand-orange); 
-            color: white; 
-            width: 3rem; 
-            height: 3rem; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: bold; 
-            flex-shrink: 0;
-        }
-
-        /* Navigation */
-        .controls {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            z-index: 100;
-            display: flex;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--border-color);
-            border-radius: 9999px;
-        }
-        .nav-btn {
-            background: none;
-            border: none;
-            color: var(--brand-white);
-            padding: 0.75rem;
-            cursor: pointer;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-        .nav-btn:hover { background: var(--border-color); color: var(--brand-orange); }
-        .nav-btn svg { width: 1.5rem; height: 1.5rem; fill: currentColor; }
-
-        @media (max-width: 640px) {
-            .slide { padding: 1rem; }
-            .controls { bottom: 1rem; right: 1rem; scale: 0.9; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main class="presentation-container" id="slider">
@@ -216,7 +49,7 @@
                     </div>
                     <div class="card card-highlight">
                         <h4 class="accent">Competitive Advantage</h4>
-                        <p style="color: var(--brand-white);">Concise decisively dominates the <span class="accent">High Flexibility / High Service Breadth</span> quadrant, making it a lower-risk investment for mid-tier clients.</p>
+                        <p>Concise decisively dominates the <span class="accent">High Flexibility / High Service Breadth</span> quadrant, making it a lower-risk investment for mid-tier clients.</p>
                     </div>
                 </div>
             </div>
@@ -228,11 +61,11 @@
                 <h2 class="accent">Market Opportunity & TAM</h2>
                 <div class="grid-2" style="align-items: center;">
                     <div style="text-align: center;">
-                        <div style="font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 800; color: var(--brand-white);">~$3.5B</div>
+                        <div style="font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 800; color: var(--brand-navy);">~$3.5B</div>
                         <div style="letter-spacing: 0.2em; color: var(--brand-grey); text-transform: uppercase; font-size: 0.875rem;">AU SME Digital TAM</div>
                     </div>
                     <div class="card">
-                        <p style="margin-bottom: 1rem;"><strong style="color: white;">Key Growth Sectors:</strong> E-commerce UX, Cybersecurity, AI-assisted content marketing.</p>
+                        <p style="margin-bottom: 1rem;"><strong style="color: var(--brand-navy);">Key Growth Sectors:</strong> E-commerce UX, Cybersecurity, AI-assisted content marketing.</p>
                         <p style="border-left: 4px solid var(--brand-orange); padding-left: 1rem;"><strong class="accent">Strategic Gap:</strong> Bridging technical knowledge gaps for businesses overwhelmed by the fast-paced digital shifts of 2026.</p>
                     </div>
                 </div>
@@ -276,7 +109,7 @@
                 </div>
                 <div class="card">
                     <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Immediate Next Steps</h4>
-                    <ul style="list-style: none; padding-left: 0.5rem;">
+                    <ul style="list-style: none; padding-left: 0;">
                         <li style="margin-bottom: 0.75rem; display: flex; gap: 0.75rem;">
                             <span class="accent">✔</span> Approve the RFQ commercial terms.
                         </li>
@@ -292,18 +125,23 @@
         </section>
     </main>
 
-    <!-- Navigation Controls -->
-    <div class="controls">
-        <button id="prevBtn" class="nav-btn" title="Previous">
-            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-        </button>
-        <button id="pauseBtn" class="nav-btn" title="Play/Pause">
-            <span id="pauseIcon" style="font-size: 1.25rem;">⏸</span>
-        </button>
-        <button id="nextBtn" class="nav-btn" title="Next">
-            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-        </button>
-    </div>
+    <!-- Fixed Footer Navigation -->
+    <footer class="presentation-footer">
+        <div class="footer-left">
+            <div class="logo-placeholder">LOGO PLACEHOLDER</div>
+            <div class="controls">
+                <button id="prevBtn" class="nav-btn" title="Previous">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button id="pauseBtn" class="nav-btn" title="Play/Pause">
+                    <span id="pauseIcon" style="font-size: 1.25rem;">⏸</span>
+                </button>
+                <button id="nextBtn" class="nav-btn" title="Next">
+                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+            </div>
+        </div>
+    </footer>
 
     <script>
         const container = document.getElementById('slider');
