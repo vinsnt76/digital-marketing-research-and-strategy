@@ -4,160 +4,325 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RFQ Strategy: Concise Digital 2026</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; overflow: hidden; }
-        .slide { min-height: 100vh; min-width: 100vw; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; padding: 4rem; border-right: 1px solid #1e293b; }
-        .accent { color: #10b981; }
+        :root {
+            --brand-orange: #F97316;
+            --brand-navy: #0F172A;
+            --brand-white: #F8FAFC;
+            --brand-grey: #94A3B8;
+            --brand-blue: #3B82F6;
+            --bg-darker: #0b1120;
+            --border-color: #1e293b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--brand-navy); 
+            color: var(--brand-white); 
+            overflow: hidden;
+            line-height: 1.5;
+        }
+
+        /* Layout Container */
+        .presentation-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE/Edge */
+        }
+        .presentation-container::-webkit-scrollbar { display: none; }
+
+        .slide { 
+            min-height: 100vh; 
+            min-width: 100vw; 
+            flex-shrink: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            scroll-snap-align: start;
+            padding: 1.5rem;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .slide-alt { background-color: var(--bg-darker); }
+
+        /* Typography */
+        h1 { font-size: clamp(2rem, 8vw, 3.5rem); font-bold; margin-bottom: 1.5rem; line-height: 1.1; }
+        h2 { font-size: clamp(1.75rem, 6vw, 2.5rem); font-bold; margin-bottom: 2rem; }
+        h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+        h4 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.5rem; }
+        p { color: var(--brand-grey); font-size: clamp(1rem, 2vw, 1.125rem); }
+        .lead { font-size: clamp(1.125rem, 3vw, 1.25rem); color: var(--brand-grey); margin-bottom: 2.5rem; }
+        .accent { color: var(--brand-orange); }
+        .blue-accent { color: var(--brand-blue); }
+
+        /* Grid Systems */
+        .grid-2 { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 1.5rem; 
+        }
+        @media (min-width: 768px) { .grid-2 { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+
+        /* Components */
+        .card { 
+            padding: 1.5rem; 
+            background-color: #1e293b; 
+            border-radius: 0.75rem; 
+            border: 1px solid var(--border-color); 
+        }
+        .card-highlight { background-color: rgba(249, 115, 22, 0.05); border-color: rgba(249, 115, 22, 0.2); }
+        
+        .roi-card {
+            padding: 2rem;
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 1rem;
+            text-align: center;
+        }
+        .roi-value { font-size: 3.5rem; font-weight: 700; color: var(--brand-orange); }
+
+        /* Quadrant Chart */
+        .quadrant-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            background-color: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+        }
+        .quadrant-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            height: 100%;
+            border: 1px solid var(--border-color);
+        }
+        .quad-cell { border: 0.5px solid var(--border-color); position: relative; }
+        .quad-winner { 
+            background: rgba(59, 130, 246, 0.15); 
+            border: 1px solid var(--brand-blue); 
+            margin: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--brand-white);
+        }
+        .label-v { position: absolute; left: -2.5rem; top: 50%; transform: rotate(-90deg) translateY(-50%); font-size: 0.75rem; color: var(--brand-grey); white-space: nowrap; }
+        .label-h { position: absolute; bottom: -1.5rem; left: 50%; transform: translateX(-50%); font-size: 0.75rem; color: var(--brand-grey); white-space: nowrap; }
+
+        /* Roadmap */
+        .roadmap-item { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
+        .q-badge { 
+            background: var(--brand-orange); 
+            color: white; 
+            width: 3rem; 
+            height: 3rem; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: bold; 
+            flex-shrink: 0;
+        }
+
+        /* Navigation */
+        .controls {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 100;
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+        }
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--brand-white);
+            padding: 0.75rem;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover { background: var(--border-color); color: var(--brand-orange); }
+        .nav-btn svg { width: 1.5rem; height: 1.5rem; fill: currentColor; }
+
+        @media (max-width: 640px) {
+            .slide { padding: 1rem; }
+            .controls { bottom: 1rem; right: 1rem; scale: 0.9; }
+        }
     </style>
 </head>
-<body class="flex transition-transform duration-700 ease-in-out">
-    <!-- Slide 1 -->
-    <section class="slide">
-        <h1 class="text-5xl font-bold mb-4">Executive Summary & <span class="accent">Current Positioning</span></h1>
-        <p class="text-xl text-slate-400 mb-8">Overview: Concise Digital stands out through unyielding transparency, local expertise, and comprehensive service offerings.</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-            <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                <h3 class="text-xl font-semibold mb-2 accent">Current Positioning</h3>
-                <p>A highly capable, all-in-one digital partner for SMEs, proudly operating without lock-in contracts.</p>
-            </div>
-            <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                <h3 class="text-xl font-semibold mb-2 accent">Market Context (Apr 2026)</h3>
-                <p>Highlighting technological adaptability whilst maintaining a strong, human-centric support model as agencies pivot to automation.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Slide 2 -->
-    <section class="slide bg-slate-900">
-        <h2 class="text-4xl font-bold mb-8 accent">Competitor Landscape</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div class="p-6 border border-slate-700 rounded-lg bg-slate-800">
-                <h4 class="font-bold text-xl mb-2">Direct Competitors</h4>
-                <p class="text-slate-400">WME, Megantic, Digital Eagles, Titan Digital.</p>
-            </div>
-            <div class="relative p-6 border border-slate-700 rounded-lg bg-slate-800/50 h-64">
-                <!-- Main Axis Titles -->
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 text-sm text-slate-400 font-semibold -mt-4">Service Breadth</div>
-                <div class="absolute left-0 top-1/2 -translate-y-1/2 -rotate-90 origin-center text-sm text-slate-400 font-semibold -ml-4">Contract Flexibility</div>
-
-                <!-- Grid container -->
-                <div class="relative w-full h-full grid grid-cols-2 grid-rows-2 border border-slate-700">
-                    <!-- Quadrants -->
-                    <div class="border-r border-b border-slate-700 flex items-center justify-center text-slate-500 text-xs">
-                        <!-- Low Flex / Low Breadth -->
+<body>
+    <main class="presentation-container" id="slider">
+        <!-- Slide 1 -->
+        <section class="slide">
+            <div class="slide-content">
+                <h1>Executive Summary & <span class="accent">Current Positioning</span></h1>
+                <p class="lead">Overview: Concise Digital stands out through unyielding transparency, local expertise, and comprehensive service offerings.</p>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 class="accent">Current Positioning</h3>
+                        <p>A highly capable, all-in-one digital partner for SMEs, proudly operating without lock-in contracts.</p>
                     </div>
-                    <div class="border-b border-slate-700 flex items-center justify-center text-slate-500 text-xs">
-                        <!-- Low Flex / High Breadth -->
+                    <div class="card">
+                        <h3 class="accent">Market Context (Apr 2026)</h3>
+                        <p>Highlighting technological adaptability whilst maintaining a strong, human-centric support model as agencies pivot to automation.</p>
                     </div>
-                    <div class="border-r border-slate-700 flex items-center justify-center text-slate-500 text-xs">
-                        <!-- High Flex / Low Breadth -->
-                    </div>
-                    <div class="flex items-center justify-center relative bg-emerald-500/20 border border-emerald-500/50 rounded-md m-1">
-                        <span class="text-emerald-300 font-bold text-base">Concise Digital</span>
-                        <div class="absolute w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
-                    </div>
-
-                    <!-- High/Low indicators for Service Breadth (horizontal) -->
-                    <div class="absolute -bottom-6 left-0 text-xs text-slate-500">Low</div>
-                    <div class="absolute -bottom-6 right-0 text-xs text-slate-500">High</div>
-
-                    <!-- High/Low indicators for Contract Flexibility (vertical) -->
-                    <div class="absolute -left-6 top-0 text-xs text-slate-500">High</div>
-                    <div class="absolute -left-6 bottom-0 text-xs text-slate-500">Low</div>
                 </div>
             </div>
-        </div>
-        <div class="p-8 bg-emerald-500/10 border border-emerald-500/30 rounded-xl">
-            <h4 class="text-2xl font-bold mb-2">Competitive Advantage</h4>
-            <p class="text-xl">Concise decisively dominates the <span class="accent font-semibold">High Flexibility / High Service Breadth</span> quadrant, making it a lower-risk investment for mid-tier clients.</p>
-        </div>
-    </section>
+        </section>
 
-    <!-- Slide 3 -->
-    <section class="slide">
-        <h2 class="text-4xl font-bold mb-8 accent">Market Opportunity & TAM</h2>
-        <div class="flex flex-col md:flex-row items-center gap-12">
-            <div class="text-center shrink-0">
-                <div class="text-7xl font-bold">~$3.5B</div>
-                <div class="text-slate-500 uppercase tracking-widest mt-2">AU SME Digital TAM</div>
+        <!-- Slide 2 -->
+        <section class="slide slide-alt">
+            <div class="slide-content">
+                <h2 class="accent">Competitor Landscape</h2>
+                <div class="grid-2">
+                    <div class="card">
+                        <h4>Direct Competitors</h4>
+                        <p>WME, Megantic, Digital Eagles, Titan Digital.</p>
+                        
+                        <div class="quadrant-container">
+                            <span class="label-v">Contract Flexibility</span>
+                            <div class="quadrant-grid">
+                                <div class="quad-cell"></div>
+                                <div class="quad-cell"></div>
+                                <div class="quad-cell"></div>
+                                <div class="quad-cell quad-winner">Concise Digital</div>
+                            </div>
+                            <span class="label-h">Service Breadth</span>
+                        </div>
+                    </div>
+                    <div class="card card-highlight">
+                        <h4 class="accent">Competitive Advantage</h4>
+                        <p style="color: var(--brand-white);">Concise decisively dominates the <span class="accent">High Flexibility / High Service Breadth</span> quadrant, making it a lower-risk investment for mid-tier clients.</p>
+                    </div>
+                </div>
             </div>
-            <div class="space-y-4">
-                <p class="text-slate-300 text-xl"><span class="font-bold text-white">Key Growth Sectors:</span> E-commerce UX, Cybersecurity, AI-assisted content marketing.</p>
-                <p class="text-slate-300 text-xl border-l-4 border-emerald-500 pl-4"><span class="accent font-bold">Strategic Gap:</span> Bridging technical knowledge gaps for businesses overwhelmed by the fast-paced digital shifts of 2026.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Slide 4 -->
-    <section class="slide bg-slate-900">
-        <h2 class="text-4xl font-bold mb-8 accent">Proposed Strategic Roadmap</h2>
-        <div class="space-y-6">
-            <div class="flex gap-4">
-                <div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center font-bold shrink-0">Q2</div>
-                <div><h4 class="text-xl font-bold">Lead Gen Launch</h4><p class="text-slate-400">Campaigns focusing on 'Future-Proofing Your Digital Footprint'.</p></div>
+        <!-- Slide 3 -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="accent">Market Opportunity & TAM</h2>
+                <div class="grid-2" style="align-items: center;">
+                    <div style="text-align: center;">
+                        <div style="font-size: clamp(3.5rem, 10vw, 6rem); font-weight: 800; color: var(--brand-white);">~$3.5B</div>
+                        <div style="letter-spacing: 0.2em; color: var(--brand-grey); text-transform: uppercase; font-size: 0.875rem;">AU SME Digital TAM</div>
+                    </div>
+                    <div class="card">
+                        <p style="margin-bottom: 1rem;"><strong style="color: white;">Key Growth Sectors:</strong> E-commerce UX, Cybersecurity, AI-assisted content marketing.</p>
+                        <p style="border-left: 4px solid var(--brand-orange); padding-left: 1rem;"><strong class="accent">Strategic Gap:</strong> Bridging technical knowledge gaps for businesses overwhelmed by the fast-paced digital shifts of 2026.</p>
+                    </div>
+                </div>
             </div>
-            <div class="flex gap-4">
-                <div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center font-bold shrink-0">Q3</div>
-                <div><h4 class="text-xl font-bold">AI & CRO Rollout</h4><p class="text-slate-400">Bespoke optimisation services for existing e-commerce clients.</p></div>
-            </div>
-            <div class="flex gap-4">
-                <div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center font-bold shrink-0">Q4</div>
-                <div><h4 class="text-xl font-bold">Platform Partnerships</h4><p class="text-slate-400">Expand Shopify, WordPress, and Google partnerships for co-marketing leads.</p></div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Slide 5 -->
-    <section class="slide">
-        <h2 class="text-4xl font-bold mb-4 accent">Expected ROI & Next Steps</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div class="p-8 bg-emerald-500/10 border border-emerald-500/50 rounded-2xl">
-                <div class="text-5xl font-bold accent">+15%</div>
-                <div class="mt-2 text-slate-400">Client Retention Increase</div>
+        <!-- Slide 4 -->
+        <section class="slide slide-alt">
+            <div class="slide-content">
+                <h2 class="accent">Proposed Strategic Roadmap</h2>
+                <div style="max-width: 700px;">
+                    <div class="roadmap-item">
+                        <div class="q-badge">Q2</div>
+                        <div><h4>Lead Gen Launch</h4><p>Campaigns focusing on 'Future-Proofing Your Digital Footprint'.</p></div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="q-badge">Q3</div>
+                        <div><h4>AI & CRO Rollout</h4><p>Bespoke optimisation services for existing e-commerce clients.</p></div>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="q-badge">Q4</div>
+                        <div><h4>Platform Partnerships</h4><p>Expand Shopify, WordPress, and Google partnerships for co-marketing leads.</p></div>
+                    </div>
+                </div>
             </div>
-            <div class="p-8 bg-emerald-500/10 border border-emerald-500/50 rounded-2xl">
-                <div class="text-5xl font-bold accent">+22%</div>
-                <div class="mt-2 text-slate-400">Upsell Revenue Growth</div>
+        </section>
+
+        <!-- Slide 5 -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="accent">Expected ROI & Next Steps</h2>
+                <div class="grid-2" style="margin-bottom: 3rem;">
+                    <div class="roi-card">
+                        <div class="roi-value">+15%</div>
+                        <p>Client Retention Increase</p>
+                    </div>
+                    <div class="roi-card">
+                        <div class="roi-value">+22%</div>
+                        <p>Upsell Revenue Growth</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h4 style="font-size: 1.5rem; margin-bottom: 1rem;">Immediate Next Steps</h4>
+                    <ul style="list-style: none; padding-left: 0.5rem;">
+                        <li style="margin-bottom: 0.75rem; display: flex; gap: 0.75rem;">
+                            <span class="accent">✔</span> Approve the RFQ commercial terms.
+                        </li>
+                        <li style="margin-bottom: 0.75rem; display: flex; gap: 0.75rem;">
+                            <span class="accent">✔</span> Allocate initial budget for strategic market testing.
+                        </li>
+                        <li style="display: flex; gap: 0.75rem;">
+                            <span class="accent">✔</span> Schedule a formal project kick-off call.
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="bg-slate-800 p-8 rounded-xl border border-slate-700">
-            <h4 class="text-2xl font-bold mb-4">Immediate Next Steps</h4>
-            <ul class="list-disc list-inside space-y-2 text-slate-300">
-                <li>Approve the RFQ commercial terms.</li>
-                <li>Allocate initial budget for strategic market testing.</li>
-                <li>Schedule a formal project kick-off call.</li>
-            </ul>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Navigation Controls -->
-    <div class="fixed bottom-8 right-8 z-50 flex items-center gap-2 p-2 bg-slate-800/80 backdrop-blur-sm border border-slate-700 rounded-full shadow-xl">
-        <button id="prevBtn" class="p-3 hover:bg-slate-700 rounded-full transition-colors" title="Previous">
-            <span class="text-xl">⬅️</span>
+    <div class="controls">
+        <button id="prevBtn" class="nav-btn" title="Previous">
+            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
         </button>
-        <button id="pauseBtn" class="p-3 hover:bg-slate-700 rounded-full transition-colors" title="Play/Pause">
-            <span id="pauseIcon" class="text-xl">⏸️</span>
+        <button id="pauseBtn" class="nav-btn" title="Play/Pause">
+            <span id="pauseIcon" style="font-size: 1.25rem;">⏸</span>
         </button>
-        <button id="nextBtn" class="p-3 hover:bg-slate-700 rounded-full transition-colors" title="Next">
-            <span class="text-xl">➡️</span>
+        <button id="nextBtn" class="nav-btn" title="Next">
+            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
         </button>
     </div>
 
     <script>
+        const container = document.getElementById('slider');
         const slides = document.querySelectorAll('.slide');
         const pauseBtn = document.getElementById('pauseBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const pauseIcon = document.getElementById('pauseIcon');
+        
         let currentSlide = 0;
         let isPaused = false;
         let scrollInterval;
 
         function goToSlide(index) {
             currentSlide = (index + slides.length) % slides.length;
-            slides[currentSlide].scrollIntoView({ behavior: 'smooth', inline: 'start' });
+            container.scrollTo({
+                left: slides[currentSlide].offsetLeft,
+                behavior: 'smooth'
+            });
             if (!isPaused) startAutoScroll();
         }
 
@@ -172,11 +337,21 @@
             isPaused = !isPaused;
             if (isPaused) clearInterval(scrollInterval);
             else startAutoScroll();
-            pauseIcon.textContent = isPaused ? '▶️' : '⏸️';
+            pauseIcon.textContent = isPaused ? '▶' : '⏸';
         });
 
         prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
         nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+        // Keyboard Navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
+            if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
+            if (e.key === ' ') {
+                e.preventDefault();
+                pauseBtn.click();
+            }
+        });
 
         startAutoScroll();
     </script>
