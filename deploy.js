@@ -21,9 +21,26 @@ const rfqCssContent = `/* Styles moved inline into index.html */`;
 const rfqHtmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+      const PASSWORD = "concise2026";
+
+      const stored = sessionStorage.getItem("auth");
+
+      if (!stored) {
+        const input = prompt("Enter password to view this presentation (Hint: check 1password):");
+
+        if (input !== PASSWORD) {
+          alert("Incorrect password.");
+          window.location.href = "https://www.concise.digital";
+        } else {
+          sessionStorage.setItem("auth", "true");
+        }
+      }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RFQ Strategy: Concise Digital 2026</title>
+    <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
